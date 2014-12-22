@@ -18,6 +18,9 @@ the directory that contains the `UCI HAR Dataset`:
 
 ```R
 
+# Install the dplyr package if you don't have it
+install.packages("dplyr")
+
 source("path/to/getting-and-cleaning-data/run_analysis.R")
 
 # Obtain the data frame
@@ -26,97 +29,49 @@ tidy_dataset <- accelerometer_data.as.data.frame()
 # Obtain the second dataset with averages by activity and subject
 summary_dataset <- accelerometer_data.activity_averages()
 ```
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 
 The `accelerometer_data.as.data.frame()` function returns a data frame with the following
 variables:
 
-Var Name | Type | Desc
------------------------
-subject | character | Test subject label (1 - 30)
-activity | character | Activity label, one of: walking, walking upstairs, walking downstairs, sitting, standing, laying
-tBodyAcc_mean_X | numeric | .
-tBodyAcc_mean_Y | numeric |.
-tBodyAcc_mean_Z | numeric |.
-tGravityAcc_mean_Xnumeric |.
-tGravityAcc_mean_Y | numeric |.
-tGravityAcc_mean_Z | numeric |.
-tBodyAccJerk_mean_numeric X.
-tBodyAccJerk_mean_Y | numeric |.
-tBodyAccJerk_mean_Z | numeric |.
-tBodyGyro_mean_X| numeric |.
-tBodyGyro_mean_Y | numeric |.
-tBodyGyro_mean_Z | numeric |.
-tBodyGyroJerk_mean_X |numeric |.
-tBodyGyroJerk_mean_Y | numeric |.
-tBodyGyroJerk_mean_Z | numeric |.
-tBodyAccMag_mean | numeric |.
-tGravityAccMag_mean | numeric |.
-tBodyAccJerkMag_mean | numeric |.
-tBodyGyroMag_mean | numeric |.
-tBodyGyroJerkMag_mean | numeric |.
-fBodyAcc_mean_X | numeric |.
-fBodyAcc_mean_Y | numeric |.
-fBodyAcc_mean_Z | numeric |.
-fBodyAcc_meanFreq_X | numeric |.
-fBodyAcc_meanFreq_Y | numeric |.
-fBodyAcc_meanFreq_Z | numeric |.
-fBodyAccJerk_mean_X | numeric |.
-fBodyAccJerk_mean_Y | numeric |.
-fBodyAccJerk_mean_Z | numeric |.
-fBodyAccJerk_meanFreq_X | numeric |.
-fBodyAccJerk_meanFreq_Y | numeric |.
-fBodyAccJerk_meanFreq_Z | numeric |.
-fBodyGyro_mean_X | numeric |.
-fBodyGyro_mean_Y | numeric |.
-fBodyGyro_mean_Z | numeric |.
-fBodyGyro_meanFreq_X | numeric |.
-fBodyGyro_meanFreq_Y | numeric |.
-fBodyGyro_meanFreq_Z | numeric |.
-fBodyAccMag_mean | numeric |.
-fBodyAccMag_meanFreq | numeric |.
-fBodyBodyAccJerkMag_mean | numeric |.
-fBodyBodyAccJerkMag_meanFreq | numeric |.
-fBodyBodyGyroMag_mean | numeric |.
-fBodyBodyGyroMag_meanFreq | numeric |.
-fBodyBodyGyroJerkMag_mean | numeric |.
-fBodyBodyGyroJerkMag_meanFreq | numeric |.
-angletBodyAccMeangravity | numeric |.
-angletBodyAccJerkMeangravityMean | numeric |.
-angletBodyGyroMeangravityMean     | numeric |.
-angletBodyGyroJerkMeangravityMean | numeric |.
-angleXgravityMean | numeric |.
-angleYgravityMean | numeric |.
-angleZgravityMean | numeric |.
-tBodyAcc_std_X | numeric |.
-tBodyAcc_std_Y | numeric |.
-tBodyAcc_std_Z | numeric |.
-tGravityAcc_std_X | numeric |.
-tGravityAcc_std_Y | numeric |.
-tGravityAcc_std_Z | numeric |.
-tBodyAccJerk_std_X | numeric |.
-tBodyAccJerk_std_Y | numeric |.
-tBodyAccJerk_std_Z | numeric |.
-tBodyGyro_std_X | numeric |.
-tBodyGyro_std_Y | numeric |.
-tBodyGyro_std_Z | numeric |.
-tBodyGyroJerk_std_X | numeric |.
-tBodyGyroJerk_std_Y | numeric |.
-tBodyGyroJerk_std_Z | numeric |.
-tBodyAccMag_std | numeric |.
-tGravityAccMag_std | numeric |.
-tBodyAccJerkMag_std | numeric |.
-tBodyGyroMag_std | numeric |.
-tBodyGyroJerkMag_std | numeric |.
-fBodyAcc_std_X | numeric |.
-fBodyAcc_std_Y | numeric |.
-fBodyAcc_std_Z | numeric |.
-fBodyAccJerk_std_X | numeric |.
-fBodyAccJerk_std_Y | numeric |.
-fBodyAccJerk_std_Z | numeric |.
-fBodyGyro_std_X | numeric |.
-fBodyGyro_std_Y | numeric |.
-fBodyGyro_std_Z | |                numeric  .
-fBodyAccMag_std | numeric |.
-fBodyBodyAccJerkMag_std | |numeric  .
-fBodyBodyGyroMag_std | numeric |.
-fBodyBodyGyroJerkMag_std | numeric |.
+  - subject
+  - activity
+  - tBodyAcc-XYZ
+  - tGravityAcc-XYZ
+  - tBodyAccJerk-XYZ
+  - tBodyGyro-XYZ
+  - tBodyGyroJerk-XYZ
+  - tBodyAccMag
+  - tGravityAccMag
+  - tBodyAccJerkMag
+  - tBodyGyroMag
+  - tBodyGyroJerkMag
+  - fBodyAcc-XYZ
+  - fBodyAccJerk-XYZ
+  - fBodyGyro-XYZ
+  - fBodyAccMag
+  - fBodyAccJerkMag
+  - fBodyGyroMag
+  - fBodyGyroJerkMag
+
+The __subject__ represents the label of the test subject from which the data is available range from 1 - 30.
+The __activity__ represents a descriptive tag of the activity being reported by the readings: 
+  - walking 
+  - walking upstairs 
+  - walking downstairs 
+  - sitting 
+  - standing
+  - laying
+
+The set of variables that were estimated from the signals are: 
+
+mean(): Mean value
+std(): Standard deviation
+meanFreq(): Weighted average of the frequency components to obtain a mean frequency

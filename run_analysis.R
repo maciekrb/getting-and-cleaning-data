@@ -8,9 +8,17 @@ accelerometer_data.as.data.frame <- function() {
     #   data.frame
     
     # Load relevant files and bind in a single data frame
-    subjects <- read.table("UCI HAR Dataset//test//subject_test.txt", colClasses=c("integer"), col.names=c("subject"))
-    activities <- read.table("UCI HAR Dataset//test//y_test.txt", colClasses=c("integer"), col.names=c("activity"))
-    features <- read.table("UCI HAR Dataset//test//X_test.txt", colClasses=c("numeric"))
+    subjects_test <- read.table("UCI HAR Dataset//test//subject_test.txt", colClasses=c("integer"), col.names=c("subject"))
+    activities_test <- read.table("UCI HAR Dataset//test//y_test.txt", colClasses=c("integer"), col.names=c("activity"))
+    features_test <- read.table("UCI HAR Dataset//test//X_test.txt", colClasses=c("numeric"))
+    
+    subjects_train<- read.table("UCI HAR Dataset//train//subject_train.txt", colClasses=c("integer"), col.names=c("subject"))
+    activities_train<- read.table("UCI HAR Dataset//train//y_train.txt", colClasses=c("integer"), col.names=c("activity"))
+    features_train<- read.table("UCI HAR Dataset//train//X_train.txt", colClasses=c("numeric"))
+    
+    subjects <- rbind(subjects_test, subjects_train)
+    activities<- rbind(activities_test, activities_train)
+    features <- rbind(features_test, features_train)
     
     # Convert the activites to factors according to given reference (activity_labels.txt)
     activities$activity <- as.factor(activities$activity)
